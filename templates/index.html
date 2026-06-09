@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+  <title>Sakhi AI</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { font-family: 'Poppins', Arial, sans-serif; background: linear-gradient(135deg, #fce4ec 0%, #f3e5f5 100%); min-height: 100vh; }
+    .header { background: linear-gradient(135deg, #ad1457, #7b1fa2); color: white; padding: 14px 16px 12px; text-align: center; position: relative; box-shadow: 0 4px 15px rgba(173,20,87,0.3); }
+    .header h1 { font-size: 20px; font-weight: 700; letter-spacing: 1px; }
+    .header p { font-size: 11px; opacity: 0.9; margin-top: 2px; font-weight: 300; }
+    .header .tagline { font-size: 10px; opacity: 0.75; margin-top: 1px; font-style: italic; }
+    .lang-btn { position: absolute; top: 50%; right: 12px; transform: translateY(-50%); background: white; color: #ad1457; border: none; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 600; cursor: pointer; font-family: 'Poppins', Arial, sans-serif; box-shadow: 0 2px 8px rgba(0,0,0,0.15); }
+    .welcome-banner { background: linear-gradient(135deg, #f8bbd0, #e1bee7); margin: 12px 10px 0; border-radius: 14px; padding: 12px 16px; text-align: center; box-shadow: 0 2px 10px rgba(173,20,87,0.1); }
+    .welcome-banner h2 { color: #ad1457; font-size: 14px; font-weight: 600; }
+    .welcome-banner p { color: #6a1b9a; font-size: 11px; margin-top: 3px; }
+    .checker-section { margin: 10px 10px 0; background: white; border-radius: 14px; box-shadow: 0 2px 10px rgba(173,20,87,0.1); overflow: hidden; }
+    .checker-header { background: linear-gradient(135deg, #ad1457, #7b1fa2); color: white; padding: 12px 16px; display: flex; justify-content: space-between; align-items: center; cursor: pointer; font-size: 13px; font-weight: 600; }
+    .checker-body { padding: 14px 16px; }
+    .checker-row { display: flex; align-items: center; gap: 10px; margin-bottom: 10px; }
+    .checker-row label { font-size: 12px; color: #ad1457; font-weight: 500; min-width: 110px; }
+    .checker-row input, .checker-row select { flex: 1; padding: 7px 12px; border: 2px solid #f48fb1; border-radius: 20px; font-size: 12px; outline: none; font-family: 'Poppins', Arial, sans-serif; background: #fff8f9; color: #333; }
+    .checker-btn { width: 100%; padding: 10px; background: linear-gradient(135deg, #ad1457, #7b1fa2); color: white; border: none; border-radius: 24px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Poppins', Arial, sans-serif; margin-top: 4px; }
+    .chips-section { padding: 10px 10px 0; }
+    .chips-label { color: #ad1457; font-size: 11px; font-weight: 600; margin-bottom: 7px; padding-left: 2px; }
+    .chips { display: flex; flex-wrap: wrap; gap: 7px; }
+    .chip { background: white; border: 2px solid #f48fb1; color: #ad1457; padding: 6px 12px; border-radius: 20px; font-size: 11px; font-weight: 500; cursor: pointer; font-family: 'Poppins', Arial, sans-serif; box-shadow: 0 2px 6px rgba(173,20,87,0.1); }
+    .chip:active { background: linear-gradient(135deg, #ad1457, #7b1fa2); color: white; border-color: transparent; }
+    .chat-box { max-width: 700px; margin: 0 auto; padding: 10px 10px 0; }
+    .message { margin: 8px 0; display: flex; align-items: flex-end; gap: 6px; }
+    .message.user { justify-content: flex-end; }
+    .avatar { width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; background: linear-gradient(135deg, #f48fb1, #ce93d8); }
+    .bubble { padding: 10px 14px; border-radius: 16px; max-width: 82%; font-size: 12px; line-height: 1.6; }
+    .user .bubble { background: linear-gradient(135deg, #ad1457, #7b1fa2); color: white; border-bottom-right-radius: 4px; box-shadow: 0 3px 12px rgba(173,20,87,0.3); }
+    .bot .bubble { background: white; color: #333; border-bottom-left-radius: 4px; box-shadow: 0 3px 12px rgba(0,0,0,0.08); }
+    .scheme-card { background: linear-gradient(135deg, #fff8f9, #fdf4ff); border-left: 4px solid #ad1457; border-radius: 10px; padding: 10px 12px; margin: 7px 0; box-shadow: 0 2px 8px rgba(173,20,87,0.08); }
+    .scheme-card h3 { color: #ad1457; font-size: 12px; font-weight: 600; margin-bottom: 5px; }
+    .scheme-card p { font-size: 11px; color: #555; margin: 2px 0; }
+    .scheme-card .tag { display: inline-block; background: linear-gradient(135deg, #f8bbd0, #e1bee7); color: #ad1457; padding: 2px 8px; border-radius: 10px; font-size: 10px; font-weight: 500; margin-top: 5px; }
+    .apply-btn { display: inline-block; margin-top: 8px; background: linear-gradient(135deg, #ad1457, #7b1fa2); color: white; padding: 5px 14px; border-radius: 20px; font-size: 11px; font-weight: 600; text-decoration: none; }
+    .apply-btn:hover { opacity: 0.85; }
+.feedback-row { display: flex; align-items: center; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+    .feedback-label { font-size: 10px; color: #888; }
+    .fb-btn { border: none; padding: 4px 10px; border-radius: 12px; font-size: 11px; cursor: pointer; font-family: 'Poppins', Arial, sans-serif; }
+    .fb-yes { background: #e8f5e9; color: #2e7d32; }
+    .fb-no { background: #fce4ec; color: #ad1457; }
+    .fb-btn.selected { opacity: 0.6; cursor: default; }
+    .fb-thanks { font-size: 10px; color: #ad1457; font-style: italic; }
+    .input-area { position: fixed; bottom: 0; left: 0; right: 0; background: white; padding: 10px 12px; box-shadow: 0 -4px 20px rgba(173,20,87,0.1); border-top: 1px solid #fce4ec; }
+    .input-row { max-width: 700px; margin: 0 auto; display: flex; gap: 8px; }
+    .input-row input { flex: 1; padding: 10px 16px; border: 2px solid #f48fb1; border-radius: 24px; font-size: 13px; outline: none; font-family: 'Poppins', Arial, sans-serif; background: #fff8f9; color: #333; }
+    .input-row input:focus { border-color: #ad1457; background: white; }
+    #voiceBtn { background: white; border: 2px solid #f48fb1; color: #ad1457; padding: 10px 13px; border-radius: 24px; font-size: 18px; cursor: pointer; flex-shrink: 0; transition: all 0.2s; }
+    #voiceBtn.listening { background: #fce4ec; border-color: #ad1457; animation: pulse 1s infinite; }
+    @keyframes pulse { 0% { transform: scale(1); } 50% { transform: scale(1.1); } 100% { transform: scale(1); } }
+    .input-row button#sendBtn { background: linear-gradient(135deg, #ad1457, #7b1fa2); color: white; border: none; padding: 10px 18px; border-radius: 24px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Poppins', Arial, sans-serif; box-shadow: 0 3px 12px rgba(173,20,87,0.3); white-space: nowrap; }
+    .spacer { height: 75px; }
+    .found-text { color: #ad1457; font-weight: 600; font-size: 12px; }
+    @media (max-width: 480px) { .header h1 { font-size: 18px; } .bubble { max-width: 88%; font-size: 12px; } .chip { font-size: 11px; padding: 5px 10px; } .input-row input { font-size: 13px; padding: 9px 14px; } .input-row button { padding: 9px 14px; font-size: 12px; } }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>🌸 Sakhi AI</h1>
+  <p id="subtitle">Your guide to women's schemes in Maharashtra</p>
+  <p class="tagline" id="tagline">Empowering every woman, every stage of life</p>
+  <button class="lang-btn" id="langBtn">मराठी</button>
+</div>
+
+<div class="welcome-banner">
+  <h2 id="welcomeTitle">नमस्ते! Welcome to Sakhi AI 🌸</h2>
+  <p id="welcomeText">I help you find the right government schemes for women in Maharashtra</p>
+</div>
+
+<div class="checker-section">
+  <div class="checker-header" onclick="toggleChecker()">
+    <span id="checkerTitle">🎯 Check my eligibility</span>
+    <span id="checkerArrow">▼</span>
+  </div>
+  <div class="checker-body" id="checkerBody" style="display:none">
+    <div class="checker-row">
+      <label id="ageLabel">Your age:</label>
+      <input type="number" id="ageInput" placeholder="e.g. 25" min="0" max="100"/>
+    </div>
+    <div class="checker-row">
+      <label id="incomeLabel">Income level:</label>
+      <select id="incomeInput">
+        <option value="all">Any</option>
+        <option value="low">Low income / BPL</option>
+        <option value="middle">Middle income</option>
+      </select>
+    </div>
+    <div class="checker-row">
+      <label id="maritalLabel">Marital status:</label>
+      <select id="maritalInput">
+        <option value="all">Any</option>
+        <option value="married">Married</option>
+        <option value="unmarried">Unmarried</option>
+        <option value="widowed">Widowed</option>
+        <option value="divorced">Divorced</option>
+      </select>
+    </div>
+    <div class="checker-row">
+      <label id="categoryLabel">Category:</label>
+      <select id="categoryInput">
+        <option value="all">Any / General</option>
+        <option value="sc">SC</option>
+        <option value="st">ST</option>
+        <option value="obc">OBC</option>
+        <option value="ebc">EBC</option>
+      </select>
+    </div>
+    <button class="checker-btn" id="checkerBtn" onclick="checkEligibility()">🔍 Find my schemes</button>
+  </div>
+</div>
+
+<div class="chips-section">
+  <div class="chips-label" id="chipsLabel">✨ Choose a life stage:</div>
+  <div class="chips">
+    <span class="chip" id="chip1">👶 Girl Child</span>
+    <span class="chip" id="chip2">🤰 Maternity</span>
+    <span class="chip" id="chip3">💼 Employment</span>
+    <span class="chip" id="chip4">🏠 Family</span>
+    <span class="chip" id="chip5">👵 Senior Citizen</span>
+    <span class="chip" id="chip6">📚 Education</span>
+    <span class="chip" id="chip7">🛡️ Safety</span>
+  </div>
+</div>
+
+<div class="chat-box" id="chat">
+  <div class="spacer"></div>
+</div>
+
+<div class="input-area">
+  <div class="input-row">
+    <input type="text" id="userInput" placeholder="Ask about any scheme..."/>
+    <button id="voiceBtn" title="Speak">🎤</button>
+    <button id="sendBtn">Send 💬</button>
+  </div>
+</div>
+
+<script>
+var currentLang = 'en';
+
+function toggleChecker() {
+  var body = document.getElementById('checkerBody');
+  var arrow = document.getElementById('checkerArrow');
+  if (body.style.display === 'none') {
+    body.style.display = 'block';
+    arrow.textContent = '▲';
+  } else {
+    body.style.display = 'none';
+    arrow.textContent = '▼';
+  }
+}
+
+function checkEligibility() {
+  var age = document.getElementById('ageInput').value;
+  var income = document.getElementById('incomeInput').value;
+  var marital = document.getElementById('maritalInput').value;
+  var category = document.getElementById('categoryInput').value;
+  if (!age) {
+    alert(currentLang === 'mr' ? 'कृपया तुमचे वय टाका.' : 'Please enter your age.');
+    return;
+  }
+  var msg = currentLang === 'mr' ? 'माझ्यासाठी योग्य योजना शोधा - वय: ' + age : 'Find schemes for me - Age: ' + age;
+  addMessage(msg, 'user', false);
+  fetch('/check', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ age: age, income: income, marital: marital, category: category, lang: currentLang })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    if (data.found) {
+      var foundText = currentLang === 'mr' ? ' योजना तुमच्यासाठी पात्र आहेत!' : ' schemes you are eligible for!';
+      var html = '<span class="found-text">🎯 ' + data.schemes.length + foundText + '</span><br><br>';
+      data.schemes.forEach(function(s) {
+        var forLabel = currentLang === 'mr' ? 'साठी' : 'For';
+        var ageLabel = currentLang === 'mr' ? 'वय' : 'Age';
+        var benefitLabel = currentLang === 'mr' ? 'फायदा' : 'Benefit';
+        var applyText = currentLang === 'mr' ? '🔗 अर्ज करा' : '🔗 Apply Now';
+        html += '<div class="scheme-card">';
+        html += '<h3>📋 ' + s.name + '</h3>';
+        html += '<p>👩 <b>' + forLabel + ':</b> ' + s.for_who + '</p>';
+        html += '<p>🎂 <b>' + ageLabel + ':</b> ' + s.age + '</p>';
+        html += '<p>💰 <b>' + benefitLabel + ':</b> ' + s.benefit + '</p>';
+        html += '<span class="tag">🏷️ ' + s.life_stage + '</span>';
+        if (s.apply_link && s.apply_link !== '#') {
+          html += '<br><a href="' + s.apply_link + '" target="_blank" class="apply-btn">' + applyText + '</a>';
+        }
+        html += '</div>';
+      });
+      addMessage(html, 'bot', true);
+    } else {
+      addMessage(data.message, 'bot', false);
+    }
+  });
+  document.getElementById('checkerBody').style.display = 'none';
+  document.getElementById('checkerArrow').textContent = '▼';
+}
+
+document.getElementById('langBtn').addEventListener('click', function() {
+  currentLang = currentLang === 'en' ? 'mr' : 'en';
+  if (currentLang === 'mr') {
+    document.getElementById('langBtn').textContent = 'English';
+    document.getElementById('subtitle').textContent = 'महाराष्ट्रातील महिलांच्या योजनांसाठी मार्गदर्शक';
+    document.getElementById('tagline').textContent = 'प्रत्येक महिलेसाठी, जीवनाच्या प्रत्येक टप्प्यावर';
+    document.getElementById('welcomeTitle').textContent = 'नमस्ते! सखी AI मध्ये आपले स्वागत 🌸';
+    document.getElementById('welcomeText').textContent = 'महाराष्ट्रातील महिलांसाठी सरकारी योजना शोधा';
+    document.getElementById('chipsLabel').textContent = '✨ जीवनाचा टप्पा निवडा:';
+    document.getElementById('checkerTitle').textContent = '🎯 माझी पात्रता तपासा';
+    document.getElementById('ageLabel').textContent = 'तुमचे वय:';
+    document.getElementById('incomeLabel').textContent = 'उत्पन्न पातळी:';
+    document.getElementById('maritalLabel').textContent = 'वैवाहिक स्थिती:';
+    document.getElementById('categoryLabel').textContent = 'प्रवर्ग:';
+    document.getElementById('checkerBtn').textContent = '🔍 माझ्या योजना शोधा';
+    document.getElementById('chip1').textContent = '👶 मुलगी';
+    document.getElementById('chip2').textContent = '🤰 मातृत्व';
+    document.getElementById('chip3').textContent = '💼 रोजगार';
+    document.getElementById('chip4').textContent = '🏠 कुटुंब';
+    document.getElementById('chip5').textContent = '👵 ज्येष्ठ नागरिक';
+    document.getElementById('chip6').textContent = '📚 शिक्षण';
+    document.getElementById('chip7').textContent = '🛡️ सुरक्षा';
+    document.getElementById('userInput').placeholder = 'येथे प्रश्न विचारा...';
+    document.getElementById('sendBtn').textContent = 'पाठवा 💬';
+  } else {
+    document.getElementById('langBtn').textContent = 'मराठी';
+    document.getElementById('subtitle').textContent = "Your guide to women's schemes in Maharashtra";
+    document.getElementById('tagline').textContent = 'Empowering every woman, every stage of life';
+    document.getElementById('welcomeTitle').textContent = 'नमस्ते! Welcome to Sakhi AI 🌸';
+    document.getElementById('welcomeText').textContent = 'I help you find the right government schemes for women in Maharashtra';
+    document.getElementById('chipsLabel').textContent = '✨ Choose a life stage:';
+    document.getElementById('checkerTitle').textContent = '🎯 Check my eligibility';
+    document.getElementById('ageLabel').textContent = 'Your age:';
+    document.getElementById('incomeLabel').textContent = 'Income level:';
+    document.getElementById('maritalLabel').textContent = 'Marital status:';
+    document.getElementById('categoryLabel').textContent = 'Category:';
+    document.getElementById('checkerBtn').textContent = '🔍 Find my schemes';
+    document.getElementById('chip1').textContent = '👶 Girl Child';
+    document.getElementById('chip2').textContent = '🤰 Maternity';
+    document.getElementById('chip3').textContent = '💼 Employment';
+    document.getElementById('chip4').textContent = '🏠 Family';
+    document.getElementById('chip5').textContent = '👵 Senior Citizen';
+    document.getElementById('chip6').textContent = '📚 Education';
+    document.getElementById('chip7').textContent = '🛡️ Safety';
+    document.getElementById('userInput').placeholder = 'Ask about any scheme...';
+    document.getElementById('sendBtn').textContent = 'Send 💬';
+  }
+});
+
+document.getElementById('chip1').addEventListener('click', function() { doAsk('girl child schemes'); });
+document.getElementById('chip2').addEventListener('click', function() { doAsk('maternity schemes'); });
+document.getElementById('chip3').addEventListener('click', function() { doAsk('employment schemes'); });
+document.getElementById('chip4').addEventListener('click', function() { doAsk('family schemes'); });
+document.getElementById('chip5').addEventListener('click', function() { doAsk('senior citizen schemes'); });
+document.getElementById('chip6').addEventListener('click', function() { doAsk('education schemes'); });
+document.getElementById('chip7').addEventListener('click', function() { doAsk('safety schemes'); });
+
+document.getElementById('sendBtn').addEventListener('click', function() { sendMessage(); });
+document.getElementById('userInput').addEventListener('keydown', function(e) { if (e.key === 'Enter') sendMessage(); });
+
+var recognition = null;
+var isListening = false;
+
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+  var SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SpeechRecognition();
+  recognition.interimResults = false;
+  recognition.maxAlternatives = 1;
+  recognition.onresult = function(event) {
+    var transcript = event.results[0][0].transcript;
+    document.getElementById('userInput').value = transcript;
+    stopListening();
+    sendMessage();
+  };
+  recognition.onerror = function() { stopListening(); };
+  recognition.onend = function() { stopListening(); };
+}
+
+function startListening() {
+  if (!recognition) { alert('Please use Chrome browser for voice input.'); return; }
+  isListening = true;
+  recognition.lang = currentLang === 'mr' ? 'mr-IN' : 'hi-IN';
+  recognition.start();
+  document.getElementById('voiceBtn').textContent = '🔴';
+  document.getElementById('voiceBtn').classList.add('listening');
+  document.getElementById('userInput').placeholder = currentLang === 'mr' ? 'ऐकत आहे...' : 'Listening...';
+}
+
+function stopListening() {
+  isListening = false;
+  document.getElementById('voiceBtn').textContent = '🎤';
+  document.getElementById('voiceBtn').classList.remove('listening');
+  document.getElementById('userInput').placeholder = currentLang === 'mr' ? 'येथे प्रश्न विचारा...' : 'Ask about any scheme...';
+}
+
+document.getElementById('voiceBtn').addEventListener('click', function() {
+  if (isListening) { recognition.stop(); stopListening(); } else { startListening(); }
+});
+
+function doAsk(question) {
+  document.getElementById('userInput').value = question;
+  sendMessage();
+}
+
+function sendMessage() {
+  var input = document.getElementById('userInput');
+  var question = input.value.trim();
+  if (!question) return;
+  input.value = '';
+  addMessage(question, 'user', false);
+  fetch('/ask', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ question: question, lang: currentLang })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function(data) {
+    if (data.found) {
+      var foundText = currentLang === 'mr' ? ' योजना सापडल्या!' : ' scheme(s) found!';
+      var html = '<span class="found-text">🌸 ' + data.schemes.length + foundText + '</span><br><br>';
+      data.schemes.forEach(function(s) {
+        var forLabel = currentLang === 'mr' ? 'साठी' : 'For';
+        var ageLabel = currentLang === 'mr' ? 'वय' : 'Age';
+        var benefitLabel = currentLang === 'mr' ? 'फायदा' : 'Benefit';
+        var applyText = currentLang === 'mr' ? '🔗 अर्ज करा' : '🔗 Apply Now';
+        html += '<div class="scheme-card">';
+        html += '<h3>📋 ' + s.name + '</h3>';
+        html += '<p>👩 <b>' + forLabel + ':</b> ' + s.for_who + '</p>';
+        html += '<p>🎂 <b>' + ageLabel + ':</b> ' + s.age + '</p>';
+        html += '<p>💰 <b>' + benefitLabel + ':</b> ' + s.benefit + '</p>';
+        html += '<span class="tag">🏷️ ' + s.life_stage + '</span>';
+        if (s.apply_link && s.apply_link !== '#') {
+          html += '<br><a href="' + s.apply_link + '" target="_blank" class="apply-btn">' + applyText + '</a>';
+        }
+        var helpfulText = currentLang === 'mr' ? 'उपयुक्त' : 'Helpful';
+        var notHelpfulText = currentLang === 'mr' ? 'उपयुक्त नाही' : 'Not Helpful';
+        html += '<div class="feedback-row">';
+        html += '<span class="feedback-label">' + (currentLang === 'mr' ? 'हे उपयुक्त होते का?' : 'Was this helpful?') + '</span>';
+        html += '<button class="fb-btn fb-yes" onclick="sendFeedback(this, \`' + s.name + '\`, \`helpful\`)">👍 ' + helpfulText + '</button>';
+        html += '<button class="fb-btn fb-no" onclick="sendFeedback(this, \`' + s.name + '\`, \`not_helpful\`)">👎 ' + notHelpfulText + '</button>';
+        html += '</div>';
+        html += '</div>';
+      });
+      addMessage(html, 'bot', true);
+    } else {
+      addMessage(data.message, 'bot', false);
+    }
+  });
+}
+function sendFeedback(btn, schemeName, rating) {
+  var row = btn.parentElement;
+  fetch('/feedback', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ scheme: schemeName, rating: rating })
+  })
+  .then(function(res) { return res.json(); })
+  .then(function() {
+    row.innerHTML = '<span class="fb-thanks">' + (currentLang === 'mr' ? '🙏 अभिप्रायासाठी धन्यवाद!' : '🙏 Thanks for your feedback!') + '</span>';
+  })
+  .catch(function() {
+    row.innerHTML = '<span class="fb-thanks">🙏 Thanks for your feedback!</span>';
+  });
+}
+
+function addMessage(text, sender, isHTML) {
+  var chat = document.getElementById('chat');
+  var spacer = chat.querySelector('.spacer');
+  var div = document.createElement('div');
+  div.className = 'message ' + sender;
+  if (sender === 'bot') {
+    var avatar = document.createElement('div');
+    avatar.className = 'avatar';
+    avatar.textContent = '🌸';
+    div.appendChild(avatar);
+  }
+  var bubble = document.createElement('div');
+  bubble.className = 'bubble';
+  if (isHTML) { bubble.innerHTML = text; } else { bubble.textContent = text; }
+  div.appendChild(bubble);
+  chat.insertBefore(div, spacer);
+  spacer.scrollIntoView();
+}
+</script>
+</body>
+</html>
